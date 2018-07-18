@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javac.bele.web.common.sql.mypage.MypageMapper">
+
+	<select id="MypageView" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select manager_seq
+				,id
+				,name
+				,mail
+				,phone_no
+				,birth
+				,reg_date
+		from trade.manager
+		<trim prefix="where" prefixOverrides="And|Or">
+			<if test="id != null">
+				and id = #{id.id}
+			</if>
+			<if test="authpw != null">
+				and password = #{authpw}
+			</if>
+		</trim>
+	</select>
+	
+	<update id="MypageModify" parameterType="java.util.HashMap">
+		Update trade.manager set
+		<if test="password != null">
+			password = #{password},
+		</if>
+		<if test="phone_no != null">
+			phone_no = #{phone_no},
+		</if>
+		<if test="mail != null">
+			mail = #{mail}
+		</if>
+		where id = #{id.id}	
+	</update>
+	
+	<delete id="MypageDelete" parameterType="java.util.HashMap">
+		Delete from trade.manager
+		<trim prefix="where" prefixOverrides="And|Or">
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="authpw != null">
+				and password = #{authpw}
+			</if>
+		</trim>
+	</delete>
+
+</mapper>

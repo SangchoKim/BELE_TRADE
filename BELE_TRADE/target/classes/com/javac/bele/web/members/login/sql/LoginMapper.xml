@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javac.bele.web.members.login.sql.LoginMapper">
+
+	<select id="login_checked" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select id , password 
+		from trade.manager
+		where id = #{id}
+		and password = #{password}	
+	</select>
+
+
+
+	<select id="showLogin" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	
+		select manager_seq, id , name , password, phone_no
+		from trade.manager
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+		    <if test="null != manager_seq">
+		    	AND manager_seq = #{manager_seq}
+		    </if>
+		    <if test="null != id">
+		    	AND id = #{id}
+		    </if>
+		</trim>	
+	</select>
+
+	<select id="serchid" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		Select id
+			,name
+		from trade.manager
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+		    <if test="null != mail">
+		    	AND mail = #{mail}
+		    </if>
+		    <if test="null != phone_no">
+		    	AND phone_no = #{phone_no}
+		    </if>
+		</trim>		
+	</select>
+
+	<select id="serchpw" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		Select password
+				,id
+		from trade.manager
+		    <if test="null != id">
+		    	Where id = #{id}
+		    </if>
+		    <if test="null != mail">
+		    	AND mail = #{mail}
+		    </if>		
+	</select>
+	
+	<update id="updatepw" parameterType="java.util.HashMap">
+		Update trade.manager set 
+			 <if test="null != password">
+		    	password = #{password}
+		 	 </if>
+		 	 <if test="null != id">
+		    	Where id = #{id}
+		 	 </if>	
+	</update>
+
+
+
+
+
+
+
+
+
+</mapper>

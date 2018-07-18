@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javac.bele.web.common.sql.store.StoreMapper">
+
+	<select id="showBoard" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT 
+				store_seq
+				,name
+				,category
+				,adress
+				,tel_no
+				,brand
+				,size
+				,color
+				,price
+				,review
+				,just
+		FROM trade.store
+		<trim prefix="where" prefixOverrides="and|or">
+		<if test="null != just">
+			and just = #{just}
+		</if>
+		</trim>
+		ORDER By store_seq DESC 
+		Limit #{offset}, #{noOfRecords}
+	</select>
+	
+	<select id="writeGetCount" resultType="int">
+		select count(*) from trade.store
+		where just = #{just}
+	</select>
+	
+	<update id="reviewNum" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="store_seq">
+		update trade.store set 
+			review = review + 1
+			where store_seq = #{store_seq}
+			and just = #{just}			
+	</update>
+
+	<insert id="writeBoard" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="store_seq">
+		Insert into trade.store (
+					name
+					,category
+					,adress
+					,tel_no
+					,brand
+					,size
+					,color
+					,price
+					,review
+					,just
+				)values(
+				#{name}
+				,#{category}
+				,#{adress}
+				,#{tel_no}
+				,#{brand}
+				,#{size}
+				,#{color}
+				,#{price}
+				,0
+				,#{just}
+				)	
+							
+	</insert>
+	
+	<select id="showform" statementType="PREPARED" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		Select store_seq
+				,name
+				,category
+				,adress
+				,tel_no
+				,brand
+				,size
+				,color
+				,price
+				,just
+		FROM trade.store
+		<trim prefix="where" prefixOverrides="and|or">
+		<if test="null != store_seq">
+			and store_seq = #{store_seq}
+		</if>
+		<if test="null != just">
+			and just = #{just}
+		</if>
+		</trim>	
+	</select>
+	
+	<update id="updateBoard" parameterType="java.util.HashMap">
+	
+		Update trade.store set 	
+			name = #{name}
+			, category = #{category}
+			, adress = #{adress}
+			, tel_no = #{tel_no}
+			, brand = #{brand}
+			, size = #{size}
+			, color = #{color}
+			, price = #{price}
+			Where store_seq = #{store_seq}
+			and just = #{just}	
+	</update>
+	
+	
+	<delete id="deleteBoard" parameterType="java.util.HashMap">
+		Delete from trade.store
+		Where store_seq = #{store_seq}	
+		and just = #{just}	
+	</delete>
+	
+	<select id="storeSearch" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		Select *
+		From trade.store
+		WHERE just = #{just}
+		AND ${keyField} Like CONCAT('%',#{keyWord},'%') 
+		order by store_seq DESC
+	</select>
+</mapper>
+
+	

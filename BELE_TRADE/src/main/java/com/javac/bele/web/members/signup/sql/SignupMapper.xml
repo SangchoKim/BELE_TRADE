@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javac.bele.web.members.signup.sql.SignupMapper">
+		
+	
+	
+	<insert id="addSignup" statementType="PREPARED" parameterType="java.util.HashMap">
+		Insert into trade.manager (
+					id
+					,password
+					,name
+					,mail
+					,phone_no
+					,birth
+					)values(
+					#{id}
+					,#{password}
+					,#{name}
+					,#{mail}
+					,#{phone_no}
+					,#{birth}				
+					);
+	</insert>
+	
+	<select id="signup_checked" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		Select count(*)
+		From trade.manager
+		Where id = #{id}	
+	</select>
+	
+	
+</mapper>
