@@ -1,2 +1,2 @@
 # belle
-Belle-trade transport system for adminssS
+Belle-trade transport system for admin
